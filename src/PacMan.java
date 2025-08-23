@@ -7,7 +7,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.security.Key;
 import java.util.HashSet;
 import java.util.Random;
 import javax.swing.*;
@@ -101,6 +100,7 @@ public class PacMan extends JPanel implements ActionListener, KeyListener {
     int score = 0;
     int lives = 3;
     boolean gameOver = false;
+    boolean gameStarted = false;
 
     private String[] tileMap = {
         "XXXXXXXXXXXXXXXXXXX",
@@ -150,7 +150,7 @@ public class PacMan extends JPanel implements ActionListener, KeyListener {
             ghost.updateDirection(newDirection);
         }
         gameloop = new Timer(50, this);//20fps (1000/50)
-        gameloop.start();
+        // gameloop.start();
     }
 
     public void loadMap(){
@@ -197,6 +197,9 @@ public class PacMan extends JPanel implements ActionListener, KeyListener {
     }
 
     public void draw(Graphics g){
+        if(!gameStarted){
+            g.drawString("Press any key to START game", tileSize/2, tileSize/2);
+        }
         g.drawImage(pacman.image, pacman.x, pacman.y, pacman.width, pacman.height, null);
         for(Block ghost:ghosts){
             g.drawImage(ghost.image, ghost.x, ghost.y, ghost.width, ghost.height, null);
@@ -230,6 +233,14 @@ public class PacMan extends JPanel implements ActionListener, KeyListener {
                 break;
             }
         }
+        Block foodEaten = null;
+        for(Block food:foods){
+            if(collision(pacman, food)){
+                foodEaten = food;
+                score += 10;
+            }
+        }
+        foods.remove(foodEaten);
 
         for(Block ghost:ghosts){
             ghost.x += ghost.velocityX;
@@ -257,14 +268,6 @@ public class PacMan extends JPanel implements ActionListener, KeyListener {
                     return;
                 }
             }
-            Block foodEaten = null;
-            for(Block food:foods){
-                if(collision(pacman, food)){
-                    foodEaten = food;
-                    score += 10;
-                }
-            }
-            foods.remove(foodEaten);
         }
     }
 
@@ -288,9 +291,12 @@ public class PacMan extends JPanel implements ActionListener, KeyListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        move();
+        if(gameStarted){
+            move();
+        }
         repaint();
         if(gameOver){
+            gameStarted = false;
             gameloop.stop();
         }
     }
@@ -301,10 +307,11 @@ public class PacMan extends JPanel implements ActionListener, KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
 
-    }
+        if (!gameStarted && !gameOver) {
+            gameStarted = true;
+            gameloop.start();
+        }
 
-    @Override
-    public void keyReleased(KeyEvent e) {
         if(gameOver){
             loadMap();
             resetPositions();
@@ -334,5 +341,9 @@ public class PacMan extends JPanel implements ActionListener, KeyListener {
         }else if(pacman.direction =='R'){
             pacman.image = pacmanRightImage;
         }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
     }
 }
