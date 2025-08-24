@@ -1,157 +1,60 @@
-# 🎮 Pac-Man Game
+# 🎮 Pac-Man: The Yellow Circle's Revenge
 
-A classic Pac-Man game implementation in Java using Swing for graphics and game mechanics.
+A totally legitimate and definitely not copyright-infringing Pac-Man game in Java! 🟡
 
-## 📸 Game Features
+## 🎯 What's This?
 
-- **Classic Pac-Man Gameplay**: Navigate through a maze, collect food, and avoid ghosts
-- **Multiple Ghosts**: Four different colored ghosts (Red, Blue, Pink, Orange) with AI movement
-- **Score System**: Earn points by collecting food items
-- **Lives System**: Start with 3 lives, lose a life when caught by ghosts
-- **Collision Detection**: Realistic collision detection for walls, food, and ghosts
-- **Smooth Movement**: Arrow key controls with smooth character movement
-- **Game States**: Start screen, gameplay, and game over states
+It's Pac-Man, but coded by someone who probably had too much coffee. Navigate a maze, munch dots, and run from colorful ghosts who are definitely not having an existential crisis.
 
-## 🎯 How to Play
+## 🕹️ How to Not Die
 
-1. **Starting the Game**: Press any key to start the game
-2. **Movement**: Use arrow keys to move Pac-Man
-   - ↑ Arrow Key: Move Up
-   - ↓ Arrow Key: Move Down
-   - ← Arrow Key: Move Left
-   - → Arrow Key: Move Right
-3. **Objective**: Collect all the white food dots while avoiding the colored ghosts
-4. **Scoring**: Each food dot gives you 10 points
-5. **Lives**: You have 3 lives. Touching a ghost costs you a life
-6. **Game Over**: Game ends when all lives are lost
-7. **Restart**: Press any key after game over to restart
-
-## 🛠️ Technical Details
-
-### Technologies Used
-- **Java**: Core programming language
-- **Swing**: GUI framework for graphics and user interface
-- **AWT**: Used for graphics rendering and event handling
-
-### Game Architecture
-- **Object-Oriented Design**: Uses classes and objects for game entities
-- **Game Loop**: Timer-based game loop running at 20 FPS
-- **Event-Driven**: Keyboard event handling for player input
-- **Collision System**: Rectangle-based collision detection
-
-### Key Classes
-- `app.java`: Main class that sets up the JFrame and initializes the game
-- `PacMan.java`: Core game class containing all game logic, rendering, and mechanics
-- `Block`: Inner class representing game entities (Pac-Man, ghosts, walls, food)
-
-### Game Grid
-- **Board Size**: 19 columns × 21 rows
-- **Tile Size**: 32×32 pixels
-- **Total Resolution**: 608×672 pixels
+1. **Arrow Keys** - Move the hungry yellow circle around
+2. **Eat Dots** - They're white, they're tasty, they give you points
+3. **Avoid Ghosts** - They're colorful, they're spooky, they end your existence
+4. **Don't Panic** - When you inevitably get caught anyway
 
 ## 🚀 Getting Started
 
-### Prerequisites
-- Java Development Kit (JDK) 8 or higher
-- Any Java IDE (VS Code, IntelliJ IDEA, Eclipse) or command line
+```bash
+# Compile (cross your fingers)
+javac src/*.java
 
-### Installation & Running
-
-1. **Clone or Download** the project
-2. **Navigate** to the project directory
-3. **Compile** the Java files:
-   ```bash
-   javac src/*.java
-   ```
-4. **Run** the game:
-   ```bash
-   java -cp src app
-   ```
-
-### Project Structure
-```
-PacMan/
-├── README.md
-└── src/
-    ├── app.java              # Main application entry point
-    ├── PacMan.java           # Core game logic and mechanics
-    ├── his.java              # Additional class file
-    ├── *.class               # Compiled bytecode files
-    └── assets/               # Game sprites and images
-        ├── pacmanUp.png      # Pac-Man facing up
-        ├── pacmanDown.png    # Pac-Man facing down
-        ├── pacmanLeft.png    # Pac-Man facing left
-        ├── pacmanRight.png   # Pac-Man facing right
-        ├── redGhost.png      # Red ghost sprite
-        ├── blueGhost.png     # Blue ghost sprite
-        ├── pinkGhost.png     # Pink ghost sprite
-        ├── orangeGhost.png   # Orange ghost sprite
-        ├── scaredGhost.png   # Scared ghost state
-        ├── wall.png          # Wall tile sprite
-        ├── cherry.png        # Cherry power-up
-        ├── cherry2.png       # Alternative cherry sprite
-        └── powerFood.png     # Power pellet sprite
+# Run (pray to the Java gods)
+java -cp src app
 ```
 
-## 🎮 Game Mechanics
+## 📊 Game Stats
 
-### Movement System
-- **Speed**: Characters move at 1/4 tile per frame
-- **Direction Changes**: Smooth direction changes with collision prevention
-- **Wall Collision**: Characters cannot move through walls
+- **Lives**: 3 (spoiler: you'll need them all)
+- **Score**: 10 points per dot (big spender!)
+- **Ghosts**: 4 (because 3 wasn't enough suffering)
+- **Fun Level**: Over 9000! 🔥
 
-### Ghost AI
-- **Random Movement**: Ghosts change direction randomly when hitting walls
-- **Spawn Behavior**: Ghosts start at designated positions and move in random directions
-- **Collision**: Ghosts reset to starting positions after catching Pac-Man
+## 🎮 Controls
 
-### Map Layout
-The game uses a character-based map system:
-- `X`: Wall blocks
-- `P`: Pac-Man starting position
-- `r`, `b`, `p`, `o`: Red, Blue, Pink, Orange ghost starting positions
-- ` ` (space): Food dots
-- `O`: Empty space (no collision)
+| Key | What Happens |
+|-----|-------------|
+| ↑ ↓ ← → | Move (rocket science, I know) |
+| Any Key | Start/Restart (when life gives you game over...) |
 
-## 🎯 Game Controls Summary
+## 🏆 Pro Tips
 
-| Key | Action |
-|-----|--------|
-| Any Key | Start Game (when not started) |
-| ↑ | Move Up |
-| ↓ | Move Down |
-| ← | Move Left |
-| → | Move Right |
-| Any Key | Restart (when game over) |
+- Moving is generally better than not moving
+- Ghosts are not your friends (shocking revelation)
+- Walls are solid (who knew?)
+- Points make the score go up (mathematics!)
 
-## 🏆 Scoring System
+## 🐛 "Features"
 
-- **Food Dot**: 10 points each
-- **Lives**: Start with 3 lives
-- **Life Lost**: When Pac-Man touches any ghost
+- Ghosts with the intelligence of a confused goldfish
+- Collision detection that actually works (most of the time)
+- Graphics from the golden age of pixel art
+- Sound effects: *none* (use your imagination!)
 
-## 🐛 Known Features
-- Ghost AI with random movement patterns
-- Collision detection for all game entities
-- Smooth character animations
-- Real-time score and lives display
-- Game state management (start, playing, game over)
+## 🤓 Tech Stuff
 
-## 🔧 Development Notes
-
-- Game runs at 20 FPS (50ms timer intervals)
-- Uses HashSet collections for efficient entity management
-- Implements proper separation of concerns with distinct classes
-- Event-driven architecture for responsive controls
-
-## 📝 License
-
-This project is created for educational purposes. Feel free to use and modify as needed.
-
-## 🤝 Contributing
-
-Feel free to fork this project and submit pull requests for improvements or bug fixes.
+Built with Java Swing because we're fancy like that. Runs at a blazing 20 FPS - your eyes won't know what hit them!
 
 ---
 
-**Enjoy playing Pac-Man! 🎮👻**
+**Warning**: May cause uncontrollable urges to say "waka waka waka"
