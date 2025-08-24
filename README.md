@@ -6,6 +6,13 @@ A totally legitimate and definitely not copyright-infringing Pac-Man game in Jav
 
 It's Pac-Man, but coded by someone who probably had too much coffee. Navigate a maze, munch dots, and run from colorful ghosts who are definitely not having an existential crisis.
 
+
+
+https://github.com/user-attachments/assets/aa4031fa-3ec8-490b-9d39-0f60dafd7ceb
+
+
+
+
 ## 🕹️ How to Not Die
 
 1. **Arrow Keys** - Move the hungry yellow circle around
