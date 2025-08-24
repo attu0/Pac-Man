@@ -101,6 +101,7 @@ public class PacMan extends JPanel implements ActionListener, KeyListener {
     int lives = 3;
     boolean gameOver = false;
     boolean gameStarted = false;
+    boolean gamePaused = false;
 
     private String[] tileMap = {
         "XXXXXXXXXXXXXXXXXXX",
@@ -262,7 +263,8 @@ public class PacMan extends JPanel implements ActionListener, KeyListener {
             //check collision with pacman
             if(collision(pacman, ghost)){
                 lives -= 1;
-                resetPositions();   
+                resetPositions();
+                gamePaused = true;   
                 if(lives ==0) {
                     gameOver = true;
                     return;
@@ -291,7 +293,7 @@ public class PacMan extends JPanel implements ActionListener, KeyListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(gameStarted){
+        if(gameStarted && !gamePaused){
             move();
         }
         repaint();
@@ -312,17 +314,24 @@ public class PacMan extends JPanel implements ActionListener, KeyListener {
             gameloop.start();
         }
 
+        if(gamePaused && !gameOver){
+            gamePaused = false;
+            return;
+        }
+
         if(gameOver){
             loadMap();
             resetPositions();
             lives = 3;
             score = 0;
             gameOver = false;
+            gamePaused = false;
             gameloop.start();
         }
 
         // System.out.println("Key Released: " + e.getKeyCode());
-        if(e.getKeyCode()==KeyEvent.VK_UP){
+        if(!gamePaused){
+            if(e.getKeyCode()==KeyEvent.VK_UP){
             pacman.updateDirection('U');
         }else if(e.getKeyCode()==KeyEvent.VK_DOWN){
             pacman.updateDirection('D');
@@ -340,6 +349,7 @@ public class PacMan extends JPanel implements ActionListener, KeyListener {
             pacman.image = pacmanLeftImage;
         }else if(pacman.direction =='R'){
             pacman.image = pacmanRightImage;
+        }
         }
     }
 
