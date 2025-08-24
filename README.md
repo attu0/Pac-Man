@@ -28,7 +28,7 @@ java -cp src app
 - **Lives**: 3 (spoiler: you'll need them all)
 - **Score**: 10 points per dot (big spender!)
 - **Ghosts**: 4 (because 3 wasn't enough suffering)
-- **Fun Level**: Over 9000! 🔥
+- **Fun Level**: Over 9000! cause it is single level game🔥
 
 ## 🎮 Controls
 
