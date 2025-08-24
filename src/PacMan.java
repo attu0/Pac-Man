@@ -87,6 +87,8 @@ public class PacMan extends JPanel implements ActionListener, KeyListener {
     private Image orangeGhostImage;
     private Image redGhostImage;
 
+    private Image scaredGhostImage;
+
     private Image cherryImage;
 
     private Image pacmanUpImage;
@@ -98,6 +100,7 @@ public class PacMan extends JPanel implements ActionListener, KeyListener {
     HashSet<Block> ghosts;
     HashSet<Block> foods;
     HashSet<Block> cherries;
+    HashSet<Block> powerUps;
     Block pacman;
 
     Timer gameloop;
@@ -112,25 +115,25 @@ public class PacMan extends JPanel implements ActionListener, KeyListener {
 
     private String[] tileMap = {
         "XXXXXXXXXXXXXXXXXXX",
-        "X        X        X",
-        "X XX XXX X XXX XX X",
+        "XA        X        X",
+        "X XX XXX XAXXX XX X",
         "X  X           X  X",
         "XX X XX XXXXX XX X X",
         "X    X   X   X    X",
         "X XXXX X X X XXXX X",
-        "X      X   X      X",
+        "X      X   X  A   X",
         "XXXX XXX   XXX XXXX",
         "   X  X  r  X  X   ",
         "XXXX  X bpo X  XXXX",
         "   X  X     X  X   ",
-        "XXXX XXX   XXX XXXX",
-        "X      X   X      X",
+        "XXXX XXX A XXX XXXX",
+        "X      X   X     AX",
         "X XXXX X X X XXXX X",
         "X    X   P   X    X",
         "XX X XX XXXXX XX X X",
         "X  X           X  X",
         "X XX XXX X XXX XX X",
-        "X        X        X",
+        "XA       X        X",
         "XXXXXXXXXXXXXXXXXXX"
     };
 
@@ -142,6 +145,8 @@ public class PacMan extends JPanel implements ActionListener, KeyListener {
 
         //load images
         wallImage = new ImageIcon(getClass().getResource("/wall.png")).getImage();
+
+        scaredGhostImage = new ImageIcon(getClass().getResource("/scaredGhost.png")).getImage();
         blueGhostImage = new ImageIcon(getClass().getResource("/blueGhost.png")).getImage();
         pinkGhostImage = new ImageIcon(getClass().getResource("/pinkGhost.png")).getImage();
         orangeGhostImage = new ImageIcon(getClass().getResource("/orangeGhost.png")).getImage();
@@ -151,6 +156,8 @@ public class PacMan extends JPanel implements ActionListener, KeyListener {
         pacmanDownImage = new ImageIcon(getClass().getResource("/pacmanDown.png")).getImage();
         pacmanRightImage = new ImageIcon(getClass().getResource("/pacmanRight.png")).getImage();
         pacmanLeftImage = new ImageIcon(getClass().getResource("/pacmanLeft.png")).getImage();
+
+        powerFoodImage = new ImageIcon(getClass().getResource("/powerFood.png")).getImage();
 
         cherryImage = new ImageIcon(getClass().getResource("/cherry.png")).getImage();
 
@@ -171,6 +178,7 @@ public class PacMan extends JPanel implements ActionListener, KeyListener {
             }
         });
         // gameloop.start();
+        
     }
 
     public void loadMap() {
@@ -178,6 +186,7 @@ public class PacMan extends JPanel implements ActionListener, KeyListener {
         foods = new HashSet<Block>();
         ghosts = new HashSet<Block>();
         cherries = new HashSet<Block>();
+        powerUps = new HashSet<Block>();
 
         for (int r = 0; r < rowCount; r++) {
             for (int c = 0; c < columCount; c++) {
@@ -207,6 +216,9 @@ public class PacMan extends JPanel implements ActionListener, KeyListener {
                     foods.add(foodBlock);
                 } else if (tileMapChar == 'P') {//pacman
                     pacman = new Block(pacmanRightImage, x, y, tileSize, tileSize);
+                } else if (tileMapChar == 'A') {//powerup
+                    Block powerUp = new Block(null, x + 14, y + 14, 12, 12);
+                    powerUps.add(powerUp);
                 }
             }
         }
@@ -273,9 +285,12 @@ public class PacMan extends JPanel implements ActionListener, KeyListener {
         }
         g.setColor(Color.white);
         for (Block foodBlock : foods) {
-            g.fillRect(foodBlock.x, foodBlock.y, foodBlock.width, foodBlock.height);
+            g.fillOval(foodBlock.x, foodBlock.y, foodBlock.width, foodBlock.height);
         }
-        
+        for (Block powerUp : powerUps) {
+            g.fillOval(powerUp.x, powerUp.y, powerUp.width, powerUp.height);
+        }
+
         // Draw cherries
         for (Block cherry : cherries) {
             g.drawImage(cherry.image, cherry.x, cherry.y, cherry.width, cherry.height, null);
