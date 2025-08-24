@@ -105,13 +105,16 @@ public class PacMan extends JPanel implements ActionListener, KeyListener {
 
     Timer gameloop;
     Timer cherryTimer;
+    Timer powerModeTimer;
     char[] directions = {'U', 'D', 'L', 'R'};
     Random random = new Random();
     int score = 0;
     int lives = 3;
+    int powerModeTimeLeft = 0; 
     boolean gameOver = false;
     boolean gameStarted = false;
     boolean gamePaused = false;
+    boolean powerMode = false;
 
     private String[] tileMap = {
         "XXXXXXXXXXXXXXXXXXX",
@@ -157,8 +160,6 @@ public class PacMan extends JPanel implements ActionListener, KeyListener {
         pacmanRightImage = new ImageIcon(getClass().getResource("/pacmanRight.png")).getImage();
         pacmanLeftImage = new ImageIcon(getClass().getResource("/pacmanLeft.png")).getImage();
 
-        powerFoodImage = new ImageIcon(getClass().getResource("/powerFood.png")).getImage();
-
         cherryImage = new ImageIcon(getClass().getResource("/cherry.png")).getImage();
 
         loadMap();
@@ -178,7 +179,7 @@ public class PacMan extends JPanel implements ActionListener, KeyListener {
             }
         });
         // gameloop.start();
-        
+
     }
 
     public void loadMap() {
@@ -327,6 +328,16 @@ public class PacMan extends JPanel implements ActionListener, KeyListener {
         }
         foods.remove(foodEaten);
 
+        Block powerUpEaten = null;
+        for(Block powerUp : powerUps) {
+            if (collision(pacman, powerUp)) {
+                powerUpEaten = powerUp;
+                score += 50;
+                activatePowerMode();
+            }
+        }
+        powerUps.remove(powerUpEaten);
+
         for(Block cherry : cherries) {
             if (collision(pacman, cherry)) {
                 cherries.remove(cherry);
@@ -354,13 +365,58 @@ public class PacMan extends JPanel implements ActionListener, KeyListener {
 
             //check collision with pacman
             if (collision(pacman, ghost)) {
-                lives -= 1;
-                resetPositions();
-                gamePaused = true;
-                if (lives == 0) {
-                    gameOver = true;
-                    return;
+                if(powerMode){
+                    score += 200;
+                    ghost.reset();
+                    char newDirection = directions[random.nextInt(4)];
+                    ghost.updateDirection(newDirection);
+                }else{
+                    lives -= 1;
+                    resetPositions();
+                    gamePaused = true;
+                    if (lives == 0) {
+                        gameOver = true;
+                        return;
+                    }
                 }
+            }
+        }
+    }
+
+    public void activatePowerMode(){
+        powerMode = true;
+        powerModeTimeLeft = 10; // 10 seconds (not 10000)
+        for(Block ghost : ghosts){
+            ghost.image = scaredGhostImage;
+        }
+        if(powerModeTimer != null && powerModeTimer.isRunning()){
+            powerModeTimer.stop();
+        }
+        powerModeTimer = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                powerModeTimeLeft--;
+                if(powerModeTimeLeft<=0){
+                    deactivatePowerMode();
+                    ((Timer) e.getSource()).stop();
+                }
+            }
+        });
+        powerModeTimer.start();
+    }
+
+    public void deactivatePowerMode(){
+        powerMode = false;
+        powerModeTimeLeft =0;
+        for(Block ghost : ghosts){
+            if(ghost==ghosts.toArray()[0]){
+                ghost.image = blueGhostImage;
+            }else if(ghost == ghosts.toArray()[1]){
+                ghost.image = pinkGhostImage;
+            }else if(ghost == ghosts.toArray()[2]){
+                ghost.image = orangeGhostImage;
+            }else if(ghost == ghosts.toArray()[3]){
+                ghost.image = redGhostImage;
             }
         }
     }
@@ -376,6 +432,9 @@ public class PacMan extends JPanel implements ActionListener, KeyListener {
         pacman.reset();
         pacman.velocityX = 0;
         pacman.velocityY = 0;
+        if(powerMode){
+            deactivatePowerMode();
+        }
         for (Block ghost : ghosts) {
             ghost.reset();
             char newDirection = directions[random.nextInt(4)];
